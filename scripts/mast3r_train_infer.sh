@@ -8,26 +8,30 @@ DATASETS=(
     )
 
 SCENES=(
-    #entrance
-    entrance2l8
+    entrance
+    #entrance2l8
     #entrance2l8p288
     #santorini
     #L8
     )
 
 N_VIEWS=(
+    #430
+    #287
+    200
+    #300
     #142
     #144
-    #100
+    #120
     #50
     #3
-    5
+    #5
     # 9
     # 12
     )
 
 # increase iteration to get better metrics (e.g. gs_train_iter=5000)
-gs_train_iter=5000
+gs_train_iter=80000
 pose_lr=1x
 
 for DATASET in "${DATASETS[@]}"; do
@@ -38,15 +42,16 @@ for DATASET in "${DATASETS[@]}"; do
             SOURCE_PATH=${DATA_ROOT_DIR}/${DATASET}/${SCENE}/${N_VIEW}_views
             MODEL_PATH=./output/infer/${DATASET}/${SCENE}/${N_VIEW}_views_${gs_train_iter}Iter_${pose_lr}PoseLR/
 
-            # # ----- (1) Dust3r_coarse_geometric_initialization -----
-            CMD_D1="CUDA_VISIBLE_DEVICES=${GPU_ID} python -W ignore ./coarse_init_infer.py \
+            # # ----- (1) MAST3r_coarse_geometric_initialization -----
+            CMD_D1="CUDA_VISIBLE_DEVICES=${GPU_ID} python -W ignore ./coarse_init_infer_mast3r.py \
             --img_base_path ${SOURCE_PATH} \
             --n_views ${N_VIEW}  \
             --focal_avg \
-	    --scene_graph swin-5
+	    --scene_graph swin-3
             "
 
             # # ----- (2) Train: jointly optimize pose -----
+	    
             CMD_T="CUDA_VISIBLE_DEVICES=${GPU_ID} python -W ignore ./train_joint.py \
             -s ${SOURCE_PATH} \
             -m ${MODEL_PATH}  \
@@ -68,7 +73,7 @@ for DATASET in "${DATASETS[@]}"; do
             "
 
 
-            echo "========= ${SCENE}: Dust3r_coarse_geometric_initialization ========="
+            echo "========= ${SCENE}: MAST3r_coarse_geometric_initialization ========="
             eval $CMD_D1
             echo "========= ${SCENE}: Train: jointly optimize pose ========="
             eval $CMD_T

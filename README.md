@@ -8,8 +8,7 @@
 </h5>
 
 <div align="center">
-This repository is the official implementation of InstantSplat, an sparse-view, SfM-free framework for large-scale scene reconstruction method using Gaussian Splatting.
-InstantSplat supports 3D-GS, 2D-GS, and Mip-Splatting.
+Modified implementation of InstantSplat for Supporting [MAST3r](https://europe.naverlabs.com/blog/mast3r-matching-and-stereo-3d-reconstruction).
 </div>
 <br>
 
@@ -24,13 +23,9 @@ InstantSplat supports 3D-GS, 2D-GS, and Mip-Splatting.
 - [Citation](#citation)
 
 
-## Free-view Rendering
-https://github.com/zhiwenfan/zhiwenfan.github.io/assets/34684115/748ae0de-8186-477a-bab3-3bed80362ad7
-
 ## TODO List
+- [x] Support MAST3r for SfM
 - [ ] Confidence-aware Point Cloud Downsampling
-- [ ] Support 2D-GS
-- [ ] Support Mip-Splatting
 
 ## Get Started
 
@@ -40,10 +35,6 @@ https://github.com/zhiwenfan/zhiwenfan.github.io/assets/34684115/748ae0de-8186-4
 git clone --recursive https://github.com/NVlabs/InstantSplat.git
 cd InstantSplat
 git submodule update --init --recursive
-cd submodules/dust3r/
-mkdir -p checkpoints/
-wget https://download.europe.naverlabs.com/ComputerVision/DUSt3R/DUSt3R_ViTLarge_BaseDecoder_512_dpt.pth -P checkpoints/
-cd ../../
 ```
 
 2. Create the environment (or use pre-built docker), here we show an example using conda.
@@ -73,10 +64,9 @@ docker pull dockerzhiwen/instantsplat_public:2.0
 if docker failed to produce reasonable results, try Installation step again within the docker.
 
 ### Usage
-1. Data preparation (Our pre-processed data: [link](https://drive.google.com/file/d/1Z17tIgufz7-eZ-W0md_jUlxq89CD1e5s/view))
-```bash
-  cd <data_path>
-  # then do whatever data preparation
+1. Data preparation
+```
+  <data_path>/<dataset-name>/<scene-name>/<#view_views>/images/
 ```
 
 2. Command
@@ -93,7 +83,7 @@ if docker failed to produce reasonable results, try Installation step again with
 This work is built on many amazing research works and open-source projects, thanks a lot to all the authors for sharing!
 
 - [Gaussian-Splatting](https://github.com/graphdeco-inria/gaussian-splatting) and [diff-gaussian-rasterization](https://github.com/graphdeco-inria/diff-gaussian-rasterization)
-- [DUSt3R](https://github.com/naver/dust3r)
+- [MASt3R](https://europe.naverlabs.com/blog/mast3r-matching-and-stereo-3d-reconstruction/)
 
 ## Citation
 If you find our work useful in your research, please consider giving a star :star: and citing the following paper :pencil:.
