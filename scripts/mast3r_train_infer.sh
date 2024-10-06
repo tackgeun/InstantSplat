@@ -1,6 +1,6 @@
 #! /bin/bash
 
-GPU_ID=1
+GPU_ID=0
 DATA_ROOT_DIR="./data"
 DATASETS=(
     kist	
@@ -8,8 +8,8 @@ DATASETS=(
     )
 
 SCENES=(
-    entrance
-    #entrance2l8
+    #entrance
+    entrance2l8
     #entrance2l8p288
     #santorini
     #L8
@@ -18,10 +18,10 @@ SCENES=(
 N_VIEWS=(
     #430
     #287
-    200
+    #200
     #300
     #142
-    #144
+    144
     #120
     #50
     #3
@@ -31,7 +31,7 @@ N_VIEWS=(
     )
 
 # increase iteration to get better metrics (e.g. gs_train_iter=5000)
-gs_train_iter=80000
+gs_train_iter=40000
 pose_lr=1x
 
 for DATASET in "${DATASETS[@]}"; do

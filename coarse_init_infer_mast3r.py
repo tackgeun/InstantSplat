@@ -96,10 +96,15 @@ if __name__ == '__main__':
     end_time = time.time()
     print(f"Time taken for {n_views} views: {end_time-start_time} seconds")
 
-    # save
+    # save colmap format
     print('save colmap cameras and images')
     save_colmap_cameras(ori_size, intrinsics, os.path.join(output_colmap_path, 'cameras.txt'))
     save_colmap_images(poses, os.path.join(output_colmap_path, 'images.txt'), train_img_list)
+
+    pts_4_3dgs_all = np.array(pts3d).reshape(-1, 3)
+    np.save(output_colmap_path + "/pts_4_3dgs_all.npy", pts_4_3dgs_all)
+    np.save(output_colmap_path + "/focal.npy", np.array(focals.cpu()))
+
     print('concat pts3d')
     pts_4_3dgs = np.concatenate([p[m] for p, m in zip(pts3d, confidence_masks)])
     print('concat images')
@@ -113,9 +118,7 @@ if __name__ == '__main__':
     del imgs
     del confidence_masks
     del depthmaps
+    del pts_4_3dgs_all
     gc.collect()
     
     storePly(os.path.join(output_colmap_path, "points3D.ply"), pts_4_3dgs, color_4_3dgs)
-    pts_4_3dgs_all = np.array(pts3d).reshape(-1, 3)
-    np.save(output_colmap_path + "/pts_4_3dgs_all.npy", pts_4_3dgs_all)
-    np.save(output_colmap_path + "/focal.npy", np.array(focals.cpu()))
